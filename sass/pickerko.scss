@@ -1,0 +1,12 @@
+$paperkoRadius:             0px;
+$paperkoBackground:         #f6f6f6;
+$paperkoBorder:             #f9f9f9;
+$paperkoShadowMaxWidth:     300px;
+$paperkoDefaultShadow:      0px 1px 4px rgba(0, 0, 0, 0.1);
+
+@import "compass";
+
+@import "blocks";
+@import "fold";
+@import "paper-style";
+@import "scaffolding";
