@@ -3,7 +3,7 @@
 	'use strict';
 
 	function Pickerko(container) {
-		this.view = new View();
+		this.view = new View(); 
 		this.controller = new Controller(container, this.view);
 
 
