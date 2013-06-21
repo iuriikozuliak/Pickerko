@@ -7,104 +7,178 @@
  * @param {object} model The model constructor
  * @param {object} view The view constructor
  */
-function Controller(container, view, options) {
+function Controller(container, view, model, options) {
+
+    this.container = container;
 
     this.view = view;
-    this.container = container;
-    this.ENTER_KEY = 13;
-    this.ESCAPE_KEY = 27;
+    this.model = model;
 
-    this.today = new Date(2013, 5, 17);
-    this.startDate = this.today;
-    this.endDate = new Date();
-    this.endDate.setDate(this.today.getDate() + 5);
-
-
+    this.today = moment().startOf('day');
     this.options = extend(this.defaults, options);
-    this._init();
+
+    this.range = {
+        startDate   :  moment().startOf('day'),
+        endDate     :  moment().startOf('day').add('day', 2)
+    }
 
 }
 
 Controller.prototype = {
+
     defaults:{
-        weeks:[ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ],
-        weekabbrs:[ 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat' ],
-        months:[ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ],
-        monthabbrs:[ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ],
-        // choose between values in options.weeks or options.weekabbrs
-        displayWeekAbbr:false,
-        // choose between values in options.months or options.monthabbrs
-        displayMonthAbbr:false,
-        // left most day in the calendar
-        // 0 - Sunday, 1 - Monday, ... , 6 - Saturday
-        startIn:1,
+        startIn:1
+    },
+
+    _init:function () {
+
+        this.model.create(0,'left-one', this._getDays(this.today.day(), this.today.month(), this.today.year()));
+
+        this.showCalendar(0);
+
+        this._initEvents();
+
+    },
+
+    _initEvents:function () {
+        var nextMonthBtn = this.container.querySelector('.next'),
+            prevMonthBtn = this.container.querySelector('.prev'),
+            self = this;
+
+        nextMonthBtn.addEventListener('click', function () {
+
+            self.today = self.today.add('months', 1)
+
+            self.updateCalendar();
+        });
+
+        prevMonthBtn.addEventListener('click', function () {
+
+            self.today = self.today.subtract('months', 1)
+
+            self.updateCalendar();
+        })
+
+        $('.available').each(function (ev) {
+            ev.addEventListener('click', function () {
+
+                var clickedDate = moment(parseInt(ev.getAttribute('data-date')));
+
+                if (clickedDate.isBefore(self.range.endDate))
+                    self.range.startDate = clickedDate;
+                else {
+                    self.range.startDate = self.range.endDate;
+                    self.range.endDate = clickedDate;
+                }
+
+
+                self.updateCalendar();
+            })
+
+            ev.addEventListener('contextmenu', function (e) {
+
+                var clickedDate = moment(parseInt(ev.getAttribute('data-date')));
+
+                if (!clickedDate.isBefore(self.range.startDate))
+                    self.range.endDate = clickedDate;
+                else {
+                    self.range.endDate = self.range.startDate;
+                    self.range.startDate = clickedDate;
+                }
+
+                self.updateCalendar();
+
+                e.preventDefault();
+            })
+        })
+
+    },
+
+    showCalendar:function (id) {
+
+        this.container.innerHTML =  this.view.render(this.model.getItem(0));
+    },
+
+    updateCalendar:function () {
+
+        var calendar = {
+            days : this._getDays(this.today.day(), this.today.month(), this.today.year())
+        }
+
+        this.model.update(0, calendar);
+
+        this.container.innerHTML =  this.view.render(this.model.getItem(0));
+
+        this._initEvents();
     }
 },
 
-    Controller.prototype._init = function () {
-        this.month = ( isNaN(this.options.month) || this.options.month == null) ? this.today.getMonth() : this.options.month - 1;
-        this.year = ( isNaN(this.options.year) || this.options.year == null) ? this.today.getFullYear() : this.options.year;
-        this.caldata = this.options.caldata || {};
-    },
 
-    Controller.prototype.showCalendar = function (startDate) {
-        startDate = parseDate(startDate);
+    Controller.prototype._getDays = function (day, month, year) {
 
-        return this.view.render(this._getDays(startDate.day, startDate.month, startDate.year));
-    }
+        var firstDay = moment([year, month, 1]);
+        var lastMonth = moment(firstDay).subtract('month', 1).month();
+        var lastYear = moment(firstDay).subtract('month', 1).year();
 
-Controller.prototype._getDays = function (day, month, year) {
+        var daysInLastMonth = moment([lastYear, lastMonth]).daysInMonth();
 
-    var d = new Date(this.year, month , 0),
-        monthLength = d.getDate(),
-        firstDay = new Date(this.year, month -1, 1);
+        var dayOfWeek = firstDay.day();
 
-    this.startingDay = firstDay.getDay();
-    var rows = Array();
-    var day = 1;
-    for (var i = 0; i < 7; i++) {
-        rows[i] = Array();
-        for (var j = 0; j <= 6; j++) {
-
-            var pos = this.startingDay - this.options.startIn,
-                p = pos < 0 ? 6 + pos + 1 : pos,
-                today = month === this.today.getMonth() && day === this.today.getDate();
-
-
-            if (day <= monthLength && ( i > 0 || j >= p )) {
-
-                console.log(day);
-
-                var curDate = new Date(this.year, month, day),
-                    dayClass = '';
-
-                if (curDate.getTime() == this.today.getTime())
-                    dayClass += "today";
-
-                ++day;
-
-                rows[i][j] =
-                {
-                    date:curDate,
-                    class:dayClass
-                }
-
-            }
-            else {
-                rows[i][j] =
-                {
-                    date:'',
-                    class:dayClass
-                }
-            }
-
+        var calendar = [];
+        for (var i = 0; i < 6; i++) {
+            calendar[i] = [];
         }
 
-        if (day > monthLength) {
-            break;
+        var startDay = daysInLastMonth - dayOfWeek + this.options.startIn + 1;
+        if (startDay > daysInLastMonth)
+            startDay -= 7;
+
+        if (dayOfWeek == this.options.startIn)
+            startDay = daysInLastMonth - 6;
+
+        var curDate,
+            minDate = 0,
+            maxDate = 0;
+
+        curDate = moment([lastYear, lastMonth, startDay]).startOf('day');
+
+        for (var i = 0, col = 0, row = 0; i < 42; i++, col++, curDate = moment(curDate).add('day', 1)) {
+
+            if (i > 0 && col % 7 == 0) {
+                col = 0;
+                row++;
+            }
+
+            var cname = 'available ';
+
+            if ((minDate && curDate.isBefore(minDate)) || (maxDate && curDate.isAfter(maxDate))) {
+                cname = ' off disabled ';
+            } else if (curDate.isSame(minDate)) {
+                cname += ' active ';
+                if (curDate.isSame(this.range.startDate)) {
+                    cname += ' start ';
+                }
+                if (curDate.isSame(this.range.endDate)) {
+                    cname += ' end ';
+                }
+            } else if (curDate >= this.range.startDate && curDate <= this.range.endDate) {
+                cname += ' range ';
+                if (curDate.isSame(this.range.startDate)) {
+                    cname += ' start ';
+                }
+                if (curDate.isSame(this.range.endDate)) {
+                    cname += ' end ';
+                }
+            }
+
+            calendar[row][col] =
+            {
+                date:curDate,
+                class:cname
+            }
         }
 
-    }
-    return rows;
 
-};
+        return calendar;
+
+    };

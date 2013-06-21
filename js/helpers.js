@@ -6,6 +6,7 @@ window.$$ = document.querySelector.bind(document);
 
 // Allow for looping on Objects by chaining:
 // $('.foo').each(function () {})
+
 Object.prototype.each = function (callback) {
     for (var x in this) {
         if (this.hasOwnProperty(x)) {
@@ -23,7 +24,7 @@ function extend(a, b) {
     return a;
 }
 
-function parseDate(date){
+function parseDateFromString(date){
     date = date.replace(/-/gi,'');
 
     var day = parseInt( date.substring( 0, 2 ), 10 ),

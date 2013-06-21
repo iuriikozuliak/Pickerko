@@ -7,10 +7,11 @@
  * @constructor
  */
 
-function View() {
+function View(model) {
     this.globalTemplate
         = '<div class="pickerko dropdown-menu">'
         +   '<div class="calendars">'
+        +       '<button class="prev">Prev</button><button class="next">Next</button><br>'
         +       '{{calendars}}'
         +   '</div>'
         + '</li>';
@@ -34,7 +35,11 @@ function View() {
 
 }
 
-View.prototype.render = function (data) {
+View.prototype.render = function (item) {
+
+
+    var data = item.days;
+
     var i, j,
         daysLength = data.length ;
 
@@ -66,7 +71,7 @@ View.prototype.render = function (data) {
         rowView = '';
     }
 
-    calendar = calendar.replace('{{calendarHead}}', 'title')
+    calendar = calendar.replace('{{calendarHead}}', item.title)
     calendar = calendar.replace('{{calendarDays}}', calendarView)
 
     template = template.replace('{{calendars}}', calendar);

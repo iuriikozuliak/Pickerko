@@ -1,0 +1,14 @@
+/* line 3, ../sass/pickerko.scss */
+td {
+  padding: 5px;
+  cursor: pointer;
+}
+/* line 8, ../sass/pickerko.scss */
+td.available {
+  background: #f3f3f3;
+}
+/* line 12, ../sass/pickerko.scss */
+td.range {
+  background: #0000ed;
+  color: #fff;
+}
