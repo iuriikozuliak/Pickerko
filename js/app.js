@@ -1,19 +1,15 @@
-/*global Store, Model, View, Controller, $$ */
-(function () {
-	'use strict';
+function Pickerko(container, options) {
+    this.model = new pickerko.Model();
+    this.view = new pickerko.View(this.model);
+    this.controller = new pickerko.Controller(container, this.view, this.model, options);
 
-	function Pickerko(container) {
-        this.model = new Model();
-        this.view = new View(this.model);
+    this.controller._init();
+}
 
-		this.controller = new Controller(container, this.view, this.model, {startDate : '21/06/2013', endDate : '25/06/2013'});
+Pickerko.prototype.getRange = function () {
+    return this.controller.getRangeString();
+}
 
-        this.controller._init();
-
-    }
-
-    var container = document.getElementById('pickerko');
-
-	var todo = new Pickerko(container);
-
-})();
+Pickerko.prototype.setDate = function (startDate, endDate) {
+    this.controller.setDate(startDate, endDate);
+}

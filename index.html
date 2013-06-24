@@ -13,7 +13,8 @@
     <title></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/bootstrap-2.3.1.min.css">
+    <link rel="stylesheet" href="css/layout.css">
     <link rel="stylesheet" href="css/pickerko.css">
 </head>
 <body ng-app="homepageApp">
@@ -34,13 +35,39 @@
 
 <section id="content">
     <article class="page">
-        <div id="pickerko">
+        <div class="row">
+            <div class="dropdown">
+                <input type="text" id="pickerko1"/>
+            </div>
 
+            <button class=" btn" onclick=" this.textContent = pickerko1.getRange()">Get date</button>
+        </div>
+        <div class="row">
+            <div class="span6">
+                <input type="text" id="targetInput"/>
+
+                <div id="pickerko2" class="dropdown open"></div>
+                <br>
+                <button class="btn" onclick=" pickerko2.setDate('17/02/2013', '22/02/2013')">Set range to
+                    '17/02/2013' '22/02/2013'
+                </button>
+            </div>
+
+            <div class="span6">
+                <input type="text" id="targetInput3"/>
+                <br>
+
+                <div id="pickerko3" class="dropdown open"></div>
+            </div>
         </div>
     </article>
 </section>
 <script>
 
+</script>
+
+<script type="text/javascript">
+    window.pickerko = {};
 </script>
 <script src="js/moment.min.js"></script>
 <script src="js/helpers.js"></script>
@@ -48,5 +75,30 @@
 <script src="js/model.js"></script>
 <script src="js/controller.js"></script>
 <script src="js/app.js"></script>
+
+<script type="text/javascript">
+
+
+    var pickerko1 = new Pickerko(document.getElementById('pickerko1'), {
+        rangePicker:false
+    });
+
+    var pickerko2 = new Pickerko(document.getElementById('pickerko2'), {
+        startDate:'12/06/2013',
+        endDate:'25/06/2013',
+        targetInput:'targetInput',
+        rangePicker:true,
+        rangeClickMode: 'left-left'
+    });
+
+    var pickerko3 = new Pickerko(document.getElementById('pickerko3'), {
+        targetInput:'targetInput3',
+        rangePicker:false,
+        callback: function(newDate){
+            alert('date changed to' + newDate);
+        }
+    });
+
+</script>
 </body>
 </html>

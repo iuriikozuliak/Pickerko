@@ -4,9 +4,6 @@
 window.$ = document.querySelectorAll.bind(document);
 window.$$ = document.querySelector.bind(document);
 
-// Allow for looping on Objects by chaining:
-// $('.foo').each(function () {})
-
 Object.prototype.each = function (callback) {
     for (var x in this) {
         if (this.hasOwnProperty(x)) {
@@ -15,7 +12,7 @@ Object.prototype.each = function (callback) {
     }
 };
 
-function extend(a, b) {
+function extendObject(a, b) {
     for (var key in b) {
         if (b.hasOwnProperty(key)) {
             a[key] = b[key];

@@ -1,14 +1,59 @@
-/* line 3, ../sass/pickerko.scss */
-td {
-  padding: 5px;
-  cursor: pointer;
+/* line 4, ../sass/pickerko.scss */
+.pickerko {
+  padding: 0px;
+  margin-top: 1px;
+  width: 240px;
+  right: 0;
+  font-size: 15px;
+  border: 1px solid #b1bccc;
 }
-/* line 8, ../sass/pickerko.scss */
-td.available {
-  background: #f3f3f3;
+/* line 14, ../sass/pickerko.scss */
+.pickerko table {
+  width: 100%;
+  margin: 0;
 }
-/* line 12, ../sass/pickerko.scss */
-td.range {
-  background: #0000ed;
+/* line 19, ../sass/pickerko.scss */
+.pickerko td,
+.pickerko th {
+  text-align: center;
+}
+/* line 23, ../sass/pickerko.scss */
+.pickerko th {
+  font: bold 14px/34px Arial;
+  padding: 5px 0;
+  color: #414141;
+  text-transform: uppercase;
+}
+/* line 30, ../sass/pickerko.scss */
+.pickerko th .prev,
+.pickerko th .next {
+  position: relative;
+  top: -2px;
+}
+/* line 36, ../sass/pickerko.scss */
+.pickerko td {
+  border: 1px solid #e6e6e6;
+  border-left: none;
+  font: bold 15px/30px Arial;
+  height: 30px;
+  width: 30px;
+  text-align: center;
+}
+/* line 46, ../sass/pickerko.scss */
+.pickerko td.range, .pickerko td.range:hover {
   color: #fff;
+  background: #446aed;
+}
+/* line 52, ../sass/pickerko.scss */
+.pickerko td.available:hover {
+  background: #446aed;
+  color: #fff;
+}
+/* line 57, ../sass/pickerko.scss */
+.pickerko td.off {
+  color: #BBBBBB;
+}
+/* line 62, ../sass/pickerko.scss */
+.pickerko td.start, .pickerko td.end {
+  background: #0000ed !important;
 }

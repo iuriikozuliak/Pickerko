@@ -1,18 +1,72 @@
 @import "compass";
 
-td{
 
-    padding:5px;
-    cursor:pointer;
+.pickerko {
 
-    &.available{
-        background: #f3f3f3;
+
+    padding: 0px;
+    margin-top: 1px;
+    width: 240px;
+    right: 0;
+    font-size: 15px;
+    border: 1px solid #b1bccc;
+
+    table {
+        width: 100%;
+        margin: 0;
+    }
+    td,
+    th {
+        text-align: center;
     }
 
-    &.range{
-        background: #0000ed;
-        color: #fff;
+    th {
+        font: bold 14px/34px Arial;
+        padding:5px 0;
+        color: #414141;
+        text-transform: uppercase;
+
+        .prev,
+        .next {
+            position: relative;
+            top:-2px;
+        }
     }
 
+    td {
 
+        border: 1px solid #e6e6e6;
+        border-left: none;
+        font: bold 15px/30px Arial;
+        height: 30px;
+        width: 30px;
+        text-align: center;
+
+        &.range,
+        &.range:hover {
+            color: #fff;
+            background: #446aed;
+        }
+
+        &.available{
+            &:hover{
+                background: #446aed;
+                color: #fff;
+            }
+        }
+        &.off{
+            color: #BBBBBB;
+        }
+
+        &.start,
+        &.end{
+            background: #0000ed !important;
+        }
+    }
+
+    th {
+        &.next,
+        &.prev {
+        }
+    }
 }
