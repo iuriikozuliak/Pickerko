@@ -58,7 +58,7 @@
                 document.addEventListener('click', function (e) {
                     var target = (e && e.target);
                     if ((target != self.container) && (target.parentNode != self.container) && (target != self.calendar)) {
-                        self.container.className = "dropdown";
+                       self.container.className = self.container.className.replace(/(?:^|\s)open(?!\S)/g, '');;
                     }
                 })
 
@@ -147,7 +147,7 @@
             this.calendar = document.createElement('div');
             this.calendar.className = "pickerko";
 
-            if (this.container.className == "dropdown")
+            if(this.container.className.match(new RegExp('(\\s|^)dropdown(\\s|$)')))
                 this.calendar.className += " dropdown-menu";
 
             this.calendar.innerHTML = this.view.render(this.model.getItem(this.id))
@@ -191,7 +191,7 @@
             if (this.targetInput)
                 this.targetInput.value = this.getRangeString();
 
-            this.options.callback && this.options.callback(this.getRangeString());
+            this.options.onUpdate && this.options.onUpdate(this.getRangeString());
 
         },
 

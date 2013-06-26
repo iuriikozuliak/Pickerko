@@ -2,35 +2,37 @@
 .pickerko {
   padding: 0px;
   margin-top: 1px;
-  width: 240px;
+  max-width: 240px;
   right: 0;
+  margin-left: auto;
+  margin-right: auto;
   font-size: 15px;
   border: 1px solid #b1bccc;
 }
-/* line 14, ../sass/pickerko.scss */
+/* line 16, ../sass/pickerko.scss */
 .pickerko table {
   width: 100%;
   margin: 0;
 }
-/* line 19, ../sass/pickerko.scss */
+/* line 21, ../sass/pickerko.scss */
 .pickerko td,
 .pickerko th {
   text-align: center;
 }
-/* line 23, ../sass/pickerko.scss */
+/* line 25, ../sass/pickerko.scss */
 .pickerko th {
   font: bold 14px/34px Arial;
   padding: 5px 0;
   color: #414141;
   text-transform: uppercase;
 }
-/* line 30, ../sass/pickerko.scss */
+/* line 32, ../sass/pickerko.scss */
 .pickerko th .prev,
 .pickerko th .next {
   position: relative;
   top: -2px;
 }
-/* line 36, ../sass/pickerko.scss */
+/* line 38, ../sass/pickerko.scss */
 .pickerko td {
   border: 1px solid #e6e6e6;
   border-left: none;
@@ -39,21 +41,21 @@
   width: 30px;
   text-align: center;
 }
-/* line 46, ../sass/pickerko.scss */
+/* line 48, ../sass/pickerko.scss */
 .pickerko td.range, .pickerko td.range:hover {
   color: #fff;
   background: #446aed;
 }
-/* line 52, ../sass/pickerko.scss */
+/* line 54, ../sass/pickerko.scss */
 .pickerko td.available:hover {
   background: #446aed;
   color: #fff;
 }
-/* line 57, ../sass/pickerko.scss */
+/* line 59, ../sass/pickerko.scss */
 .pickerko td.off {
   color: #BBBBBB;
 }
-/* line 62, ../sass/pickerko.scss */
+/* line 64, ../sass/pickerko.scss */
 .pickerko td.start, .pickerko td.end {
   background: #0000ed !important;
 }

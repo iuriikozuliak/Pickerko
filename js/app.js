@@ -10,6 +10,6 @@ Pickerko.prototype.getRange = function () {
     return this.controller.getRangeString();
 }
 
-Pickerko.prototype.setDate = function (startDate, endDate) {
+Pickerko.prototype.setRange = function (startDate, endDate) {
     this.controller.setDate(startDate, endDate);
 }
