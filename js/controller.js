@@ -1,6 +1,15 @@
 (function (window) {
     'use strict';
 
+    Object.prototype.eachChild = function (callback) {
+        for (var x in this) {
+            if (this.hasOwnProperty(x)) {
+                callback.call(this, this[x]);
+            }
+        }
+    };
+
+
     function Controller(container, view, model, options) {
 
         this.container = container;
@@ -92,36 +101,39 @@
                 self.today = self.today.subtract('months', 1)
 
                 self._updateCalendar();
-            })
+            });
 
-            this.calendar.querySelectorAll('.available').each(function (ev) {
-                ev.addEventListener('click', function () {
+            [].forEach.call(
+                this.calendar.querySelectorAll('.available'),
+                function(ev){
+                    ev.addEventListener('click', function () {
 
-                    var clickedDate = moment(parseInt(ev.getAttribute('data-date')));
+                            var clickedDate = moment(parseInt(ev.getAttribute('data-date')));
 
-                    if (self.options.rangePicker)
-                        if (self.options.rangeClickMode == 'left-left' && self.clickCount % 2 != 0) {
-                            if (!clickedDate.isBefore(self.range.startDate))
-                                self.range.endDate = clickedDate;
-                            else {
-                                self.range.endDate = self.range.startDate;
-                                self.range.startDate = clickedDate;
-                            }
-                        }
-                        else {
-                            if (clickedDate.isBefore(self.range.endDate))
-                                self.range.startDate = clickedDate;
-                            else {
-                                self.range.startDate = self.range.endDate;
-                                self.range.endDate = clickedDate;
-                            }
-                        }
-                    else
-                        self.range.startDate = self.range.endDate = clickedDate;
+                            if (self.options.rangePicker)
+                                if (self.options.rangeClickMode == 'left-left' && self.clickCount % 2 != 0) {
+                                    if (!clickedDate.isBefore(self.range.startDate))
+                                        self.range.endDate = clickedDate;
+                                    else {
+                                        self.range.endDate = self.range.startDate;
+                                        self.range.startDate = clickedDate;
+                                    }
+                                }
+                                else {
+                                    if (clickedDate.isBefore(self.range.endDate))
+                                        self.range.startDate = clickedDate;
+                                    else {
+                                        self.range.startDate = self.range.endDate;
+                                        self.range.endDate = clickedDate;
+                                    }
+                                }
+                            else
+                                self.range.startDate = self.range.endDate = clickedDate;
 
-                    self._updateCalendar();
-                    self.clickCount++;
-                })
+                            self._updateCalendar();
+                            self.clickCount++;
+                }
+            );
 
                 if (self.options.rangePicker && self.options.rangeClickMode == 'left-right')
                     ev.addEventListener('contextmenu', function (e) {
