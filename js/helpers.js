@@ -1,6 +1,5 @@
 'use strict';
 
-
 function extendObject(a, b) {
     for (var key in b) {
         if (b.hasOwnProperty(key)) {
