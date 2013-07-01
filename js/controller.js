@@ -1,15 +1,6 @@
 (function (window) {
     'use strict';
 
-    Object.prototype.eachChild = function (callback) {
-        for (var x in this) {
-            if (this.hasOwnProperty(x)) {
-                callback.call(this, this[x]);
-            }
-        }
-    };
-
-
     function Controller(container, view, model, options) {
 
         this.container = container;
